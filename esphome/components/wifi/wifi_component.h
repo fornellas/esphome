@@ -213,6 +213,7 @@ class WiFiComponent : public Component {
   void check_scanning_finished();
   void start_connecting(const WiFiAP &ap, bool two);
   void set_fast_connect(bool fast_connect);
+  void set_restore_values(bool restore_values);
   void set_ap_timeout(uint32_t ap_timeout) { ap_timeout_ = ap_timeout; }
 
   void check_connecting_finished();
@@ -363,6 +364,7 @@ class WiFiComponent : public Component {
   std::vector<WiFiSTAPriority> sta_priorities_;
   WiFiAP selected_ap_;
   bool fast_connect_{false};
+  bool restore_values_{false};
 
   bool has_ap_{false};
   WiFiAP ap_;
