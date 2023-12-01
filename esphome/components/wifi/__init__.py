@@ -36,9 +36,10 @@ from esphome.const import (
     CONF_ON_CONNECT,
     CONF_ON_DISCONNECT,
 )
-from esphome.core import CORE, HexInt, coroutine_with_priority
+from esphome.core import CORE, HexInt, coroutine_with_priority, ID
 from esphome.components.esp32 import add_idf_sdkconfig_option, get_esp32_variant, const
 from esphome.components.network import IPAddress
+from esphome.components.globals import RestoringGlobalsComponent
 from . import wpa2_eap
 
 AUTO_LOAD = ["network"]
@@ -388,6 +389,23 @@ def wifi_network(config, ap, static_ip):
 async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
     cg.add(var.set_use_address(config[CONF_USE_ADDRESS]))
+
+    if config[CONF_RESTORE_VALUES]:
+        # TODO
+        type_ = "char[6]"
+        template_args = cg.TemplateArguments(type_)
+        type = RestoringGlobalsComponent
+        res_type = type.template(template_args)
+        initial_value = None
+        rhs = type.new(template_args, initial_value)
+        # glob = cg.Pvariable(config[CONF_ID], rhs, res_type)
+        # await cg.register_component('foo', config)
+
+        # value = config[CONF_ID].id
+        # if isinstance(value, str):
+        #     value = value.encode()
+        # hash_ = int(hashlib.md5(value).hexdigest()[:8], 16)
+        # cg.add(glob.set_name_hash(hash_))
 
     def add_sta(ap, network):
         ip_config = network.get(CONF_MANUAL_IP, config.get(CONF_MANUAL_IP))
