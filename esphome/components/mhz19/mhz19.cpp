@@ -30,7 +30,7 @@ void MHZ19Component::setup() {
 
 void MHZ19Component::update() {
   uint32_t now_ms = millis();
-  const uint32_t warmup_ms = 75000;
+  uint32_t warmup_ms = this->warmup_seconds * 1000;
   if (now_ms < warmup_ms) {
     ESP_LOGW(TAG, "MHZ19 warming up, %ds left", (warmup_ms - now_ms) / 1000);
     this->status_set_warning();
