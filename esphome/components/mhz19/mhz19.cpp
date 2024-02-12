@@ -29,6 +29,14 @@ void MHZ19Component::setup() {
 }
 
 void MHZ19Component::update() {
+  uint32_t now_ms = millis();
+  const uint32_t warmup_ms = 75000;
+  if (now_ms < warmup_ms) {
+    ESP_LOGW(TAG, "MHZ19 warming up, %ds left", (warmup_ms - now_ms) / 1000);
+    this->status_set_warning();
+    return;
+  }
+
   uint8_t response[MHZ19_RESPONSE_LENGTH];
   if (!this->mhz19_write_command_(MHZ19_COMMAND_GET_PPM, response)) {
     ESP_LOGW(TAG, "Reading data from MHZ19 failed!");
