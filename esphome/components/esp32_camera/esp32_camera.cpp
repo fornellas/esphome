@@ -379,6 +379,8 @@ camera::CameraImageReader *ESP32Camera::create_image_reader() { return new ESP32
 void ESP32Camera::update_camera_parameters() {
   sensor_t *s = esp_camera_sensor_get();
   /* update image */
+  s->set_framesize(s, this->config_.frame_size);
+  s->set_quality(s, this->config_.jpeg_quality);
   s->set_vflip(s, this->vertical_flip_);
   s->set_hmirror(s, this->horizontal_mirror_);
   s->set_contrast(s, this->contrast_);
