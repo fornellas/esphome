@@ -109,6 +109,8 @@ void MHZ19Component::dump_config() {
   } else if (this->abc_boot_logic_ == MHZ19_ABC_DISABLED) {
     ESP_LOGCONFIG(TAG, "  Automatic baseline calibration disabled on boot");
   }
+
+  ESP_LOGCONFIG(TAG, "  Warmup seconds: %ds", this->warmup_seconds_);
 }
 
 }  // namespace mhz19
