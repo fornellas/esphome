@@ -90,15 +90,15 @@ void MHZ19Component::abc_disable() {
 void MHZ19Component::detection_range(MHZ19DetectionRange detection_range) {
   switch (detection_range) {
   case MHZ19_DETECTION_RANGE_0_2000PPM:
-    ESP_LOGD(TAG, "Setting detection range to 0 to 2000ppm")
+    ESP_LOGD(TAG, "Setting detection range to 0 to 2000ppm");
     this->mhz19_write_command_(MHZ19_COMMAND_DETECTION_RANGE_0_2000PPM, nullptr);
     break;
   case MHZ19_DETECTION_RANGE_0_5000PPM:
-    ESP_LOGD(TAG, "Setting detection range to 0 to 5000ppm")
+    ESP_LOGD(TAG, "Setting detection range to 0 to 5000ppm");
     this->mhz19_write_command_(MHZ19_COMMAND_DETECTION_RANGE_0_5000PPM, nullptr);
     break;
   case MHZ19_DETECTION_RANGE_0_10000PPM:
-    ESP_LOGD(TAG, "Setting detection range to 0 to 10000ppm")
+    ESP_LOGD(TAG, "Setting detection range to 0 to 10000ppm");
     this->mhz19_write_command_(MHZ19_COMMAND_DETECTION_RANGE_0_10000PPM, nullptr);
     break;
   }
