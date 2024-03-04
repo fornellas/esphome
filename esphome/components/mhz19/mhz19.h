@@ -29,6 +29,7 @@ class MHZ19Component : public PollingComponent, public uart::UARTDevice {
   void update() override;
   void dump_config() override;
 
+  void recover();
   void calibrate_zero();
   void abc_enable();
   void abc_disable();

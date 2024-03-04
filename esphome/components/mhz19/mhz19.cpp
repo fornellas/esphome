@@ -7,6 +7,8 @@ namespace mhz19 {
 static const char *const TAG = "mhz19";
 static const uint8_t MHZ19_REQUEST_LENGTH = 8;
 static const uint8_t MHZ19_RESPONSE_LENGTH = 9;
+// from https://github.com/WifWaf/MH-Z19/tree/master
+static const uint8_t MHZ19_COMMAND_RECOVER[] = {0xFF, 0x01, 0x78, 0x00, 0x00, 0x00, 0x00, 0x00};
 static const uint8_t MHZ19_COMMAND_GET_PPM[] = {0xFF, 0x01, 0x86, 0x00, 0x00, 0x00, 0x00, 0x00};
 static const uint8_t MHZ19_COMMAND_ABC_ENABLE[] = {0xFF, 0x01, 0x79, 0xA0, 0x00, 0x00, 0x00, 0x00};
 static const uint8_t MHZ19_COMMAND_ABC_DISABLE[] = {0xFF, 0x01, 0x79, 0x00, 0x00, 0x00, 0x00, 0x00};
@@ -70,6 +72,11 @@ void MHZ19Component::update() {
     this->co2_sensor_->publish_state(ppm);
   if (this->temperature_sensor_ != nullptr)
     this->temperature_sensor_->publish_state(temp);
+}
+
+void MHZ19Component::recover() {
+  ESP_LOGD(TAG, "MHZ19 Recover");
+  this->mhz19_write_command_(MHZ19_COMMAND_RECOVER, nullptr);
 }
 
 void MHZ19Component::calibrate_zero() {
