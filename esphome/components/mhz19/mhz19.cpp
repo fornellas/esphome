@@ -16,6 +16,7 @@ static const uint8_t MHZ19_COMMAND_CALIBRATE_ZERO[] = {0xFF, 0x01, 0x87, 0x00, 0
 static const uint8_t MHZ19_COMMAND_DETECTION_RANGE_0_2000PPM[] = {0xFF, 0x01, 0x99, 0x00, 0x00, 0x00, 0x07, 0xD0};
 static const uint8_t MHZ19_COMMAND_DETECTION_RANGE_0_5000PPM[] = {0xFF, 0x01, 0x99, 0x00, 0x00, 0x00, 0x13, 0x88};
 static const uint8_t MHZ19_COMMAND_DETECTION_RANGE_0_10000PPM[] = {0xFF, 0x01, 0x99, 0x00, 0x00, 0x00, 0x27, 0x10};
+static uint8_t MHZ19_COMMAND_CALIBRATE_SPAN[] = {0xFF, 0x01, 0x88, 0x00, 0x00, 0x00, 0x00, 0x00};
 
 uint8_t mhz19_checksum(const uint8_t *command) {
   uint8_t sum = 0;
@@ -77,6 +78,13 @@ void MHZ19Component::update() {
 void MHZ19Component::recover() {
   ESP_LOGD(TAG, "MHZ19 Recover");
   this->mhz19_write_command_(MHZ19_COMMAND_RECOVER, nullptr);
+}
+
+void MHZ19Component::calibrate_span(uint16_t value) {
+  ESP_LOGD(TAG, "MHZ19 Calibrating span");
+  MHZ19_COMMAND_CALIBRATE_SPAN[3] = (value>>8)&0xFF;
+  MHZ19_COMMAND_CALIBRATE_SPAN[4] = value&0xFF;
+  this->mhz19_write_command_(MHZ19_COMMAND_CALIBRATE_SPAN, nullptr);
 }
 
 void MHZ19Component::calibrate_zero() {
